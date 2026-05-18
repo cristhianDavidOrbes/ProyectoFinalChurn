@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Resultado de prediccion</h1>
+  <p>Cliente guardado con ID {{ registro.customerID }}.</p>
+</section>
+
+<section class="result-layout">
+  <div class="result-card risk-{{ nivel_riesgo|lower|replace(' ', '-') }}">
+    <span class="label">Modelo utilizado</span>
+    <h2>{{ modelo_usado }}</h2>
+    <span class="label">Prediccion</span>
+    <p class="result-text">{{ prediccion }}</p>
+    <span class="label">Probabilidad de abandono</span>
+    <p class="probability">{{ probabilidad }}%</p>
+    <span class="badge">{{ nivel_riesgo }}</span>
+  </div>
+
+  <div class="panel">
+    <h2>Recomendaciones de retencion</h2>
+    <ul class="recommendations">
+      {% for recomendacion in recomendaciones %}
+      <li>{{ recomendacion }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Variables derivadas calculadas</h2>
+  <div class="metric-grid">
+    <div class="small-card"><span>Numero de servicios</span><strong>{{ cliente.NumServicios }}</strong></div>
+    <div class="small-card"><span>Cliente nuevo</span><strong>{{ cliente.ClienteNuevo }}</strong></div>
+    <div class="small-card"><span>Cargo promedio por mes</span><strong>{{ "%.2f"|format(cliente.CargoPromedioPorMes) }}</strong></div>
+    <div class="small-card"><span>Contrato mensual</span><strong>{{ cliente.ContratoMensual }}</strong></div>
+  </div>
+</section>
+{% endblock %}

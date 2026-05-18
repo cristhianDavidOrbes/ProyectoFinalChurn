@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Prediccion de abandono de clientes</h1>
+  <p>Ingrese los datos del cliente, seleccione un modelo y obtenga el nivel de riesgo.</p>
+</section>
+
+<form class="form-card" action="{{ url_for('predecir') }}" method="post">
+  <div class="form-section">
+    <h2>Modelo</h2>
+    <label>
+      Modelo de Machine Learning
+      <select name="modelo" required>
+        <option value="regresion_logistica">Regresion Logistica</option>
+        <option value="random_forest">Random Forest</option>
+        <option value="xgboost">XGBoost</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="form-section">
+    <h2>Datos generales</h2>
+    <div class="grid">
+      <label>Genero
+        <select name="gender">
+          <option value="Female">Femenino</option>
+          <option value="Male">Masculino</option>
+        </select>
+      </label>
+      <label>Adulto mayor
+        <select name="SeniorCitizen">
+          <option value="0">No</option>
+          <option value="1">Si</option>
+        </select>
+      </label>
+      <label>Tiene pareja
+        <select name="Partner">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+        </select>
+      </label>
+      <label>Tiene dependientes
+        <select name="Dependents">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+        </select>
+      </label>
+      <label>Meses de permanencia
+        <input type="number" name="tenure" min="0" step="1" value="1" required>
+      </label>
+      <label>Factura electronica
+        <select name="PaperlessBilling">
+          <option value="Yes">Si</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2>Servicios</h2>
+    <div class="grid">
+      <label>Servicio telefonico
+        <select name="PhoneService">
+          <option value="Yes">Si</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <label>Lineas multiples
+        <select name="MultipleLines">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No phone service">Sin servicio telefonico</option>
+        </select>
+      </label>
+      <label>Servicio de internet
+        <select name="InternetService">
+          <option value="Fiber optic">Fibra optica</option>
+          <option value="DSL">DSL</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <label>Seguridad en linea
+        <select name="OnlineSecurity">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No internet service">Sin servicio de internet</option>
+        </select>
+      </label>
+      <label>Respaldo en linea
+        <select name="OnlineBackup">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No internet service">Sin servicio de internet</option>
+        </select>
+      </label>
+      <label>Proteccion de dispositivo
+        <select name="DeviceProtection">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No internet service">Sin servicio de internet</option>
+        </select>
+      </label>
+      <label>Soporte tecnico
+        <select name="TechSupport">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No internet service">Sin servicio de internet</option>
+        </select>
+      </label>
+      <label>Television en streaming
+        <select name="StreamingTV">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No internet service">Sin servicio de internet</option>
+        </select>
+      </label>
+      <label>Peliculas en streaming
+        <select name="StreamingMovies">
+          <option value="No">No</option>
+          <option value="Yes">Si</option>
+          <option value="No internet service">Sin servicio de internet</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2>Contrato y cargos</h2>
+    <div class="grid">
+      <label>Tipo de contrato
+        <select name="Contract">
+          <option value="Month-to-month">Mes a mes</option>
+          <option value="One year">Un ano</option>
+          <option value="Two year">Dos anos</option>
+        </select>
+      </label>
+      <label>Metodo de pago
+        <select name="PaymentMethod">
+          <option value="Electronic check">Cheque electronico</option>
+          <option value="Mailed check">Cheque por correo</option>
+          <option value="Bank transfer (automatic)">Transferencia bancaria automatica</option>
+          <option value="Credit card (automatic)">Tarjeta de credito automatica</option>
+        </select>
+      </label>
+      <label>Cargo mensual
+        <input type="number" name="MonthlyCharges" min="0" step="0.01" value="85.00" required>
+      </label>
+      <label>Cargo total
+        <input type="number" name="TotalCharges" min="0" step="0.01" value="85.00" required>
+      </label>
+    </div>
+  </div>
+
+  <button class="primary-button" type="submit">Predecir abandono</button>
+</form>
+{% endblock %}

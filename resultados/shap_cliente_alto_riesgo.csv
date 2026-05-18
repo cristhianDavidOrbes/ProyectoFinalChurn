@@ -1,0 +1,11 @@
+Variable,Valor_SHAP,Impacto
+numericas__tenure,0.8470366269469732,Aumenta el riesgo de churn
+categoricas__InternetService_Fiber optic,0.4932441734201405,Aumenta el riesgo de churn
+numericas__CargoPromedioPorMes,0.4787172669055201,Aumenta el riesgo de churn
+numericas__ContratoMensual,0.3780695797874855,Aumenta el riesgo de churn
+numericas__TotalCharges,-0.3279718073818821,Reduce el riesgo de churn
+categoricas__InternetService_DSL,0.3167636365081263,Aumenta el riesgo de churn
+numericas__MonthlyCharges,-0.22940477105388735,Reduce el riesgo de churn
+numericas__ClienteNuevo,0.17771909032302002,Aumenta el riesgo de churn
+categoricas__StreamingTV_Yes,0.16617512313769495,Aumenta el riesgo de churn
+categoricas__StreamingMovies_Yes,0.16141634684847928,Aumenta el riesgo de churn

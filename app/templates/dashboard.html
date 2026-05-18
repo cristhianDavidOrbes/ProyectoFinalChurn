@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Dashboard de clientes en riesgo</h1>
+  <p>Seguimiento del dataset completo, clientes agregados y comparacion de metricas de modelos.</p>
+</section>
+
+<section class="metrics">
+  {% for item in metricas %}
+  <article class="metric-card">
+    <h2>{{ item.modelo }}</h2>
+    <div><span>Accuracy</span><strong>{{ "%.4f"|format(item.accuracy) }}</strong></div>
+    <div><span>F1</span><strong>{{ "%.4f"|format(item.f1) }}</strong></div>
+    <div><span>ROC-AUC</span><strong>{{ "%.4f"|format(item.roc_auc) }}</strong></div>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="metric-grid summary">
+  <div class="small-card"><span>Total evaluados</span><strong>{{ conteos.total }}</strong></div>
+  <div class="small-card high"><span>Alto riesgo</span><strong>{{ conteos.alto }}</strong></div>
+  <div class="small-card medium"><span>Riesgo medio</span><strong>{{ conteos.medio }}</strong></div>
+  <div class="small-card low"><span>Bajo riesgo</span><strong>{{ conteos.bajo }}</strong></div>
+</section>
+
+<form class="filters" method="get" action="{{ url_for('dashboard') }}">
+  <label>Modelo
+    <select name="modelo">
+      <option value="">Regresion Logistica</option>
+      {% for clave, modelo in modelos.items() %}
+      <option value="{{ clave }}" {% if filtros.modelo == clave %}selected{% endif %}>{{ modelo.nombre }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Nivel de riesgo
+    <select name="riesgo">
+      <option value="">Todos</option>
+      <option {% if filtros.riesgo == "Alto riesgo" %}selected{% endif %}>Alto riesgo</option>
+      <option {% if filtros.riesgo == "Riesgo medio" %}selected{% endif %}>Riesgo medio</option>
+      <option {% if filtros.riesgo == "Bajo riesgo" %}selected{% endif %}>Bajo riesgo</option>
+    </select>
+  </label>
+  <label>Contrato
+    <select name="contrato">
+      <option value="">Todos</option>
+      <option {% if filtros.contrato == "Month-to-month" %}selected{% endif %}>Month-to-month</option>
+      <option {% if filtros.contrato == "One year" %}selected{% endif %}>One year</option>
+      <option {% if filtros.contrato == "Two year" %}selected{% endif %}>Two year</option>
+    </select>
+  </label>
+  <button type="submit">Filtrar</button>
+  <a class="secondary-link" href="{{ url_for('dashboard') }}">Limpiar</a>
+</form>
+
+<section class="panel">
+  <h2>Clientes evaluados</h2>
+  {% if registros %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>customerID</th>
+          <th>Modelo</th>
+          <th>Probabilidad</th>
+          <th>Riesgo</th>
+          <th>Contrato</th>
+          <th>Tenure</th>
+          <th>MonthlyCharges</th>
+          <th>NumServicios</th>
+          <th>Recomendaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in registros %}
+        <tr>
+          <td>{{ row.customerID }}</td>
+          <td>{{ row.modelo_usado }}</td>
+          <td>{{ row.probabilidad_churn }}%</td>
+          <td><span class="risk-pill risk-{{ row.nivel_riesgo|lower|replace(' ', '-') }}">{{ row.nivel_riesgo }}</span></td>
+          <td>{{ row.Contract }}</td>
+          <td>{{ row.tenure }}</td>
+          <td>{{ row.MonthlyCharges }}</td>
+          <td>{{ row.NumServicios }}</td>
+          <td class="wide">{{ row.recomendaciones }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">Aun no hay clientes predichos con los filtros seleccionados.</p>
+  {% endif %}
+</section>
+{% endblock %}
