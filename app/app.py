@@ -304,6 +304,11 @@ def css_publico(filename):
     return send_from_directory(BASE_DIR / "public" / "css", filename)
 
 
+@app.route("/resultados/<path:filename>")
+def archivos_resultados(filename):
+    return send_from_directory(RESULTADOS_DIR, filename)
+
+
 @app.route("/nuevo")
 def nuevo_cliente():
     return render_template("index.html", modelos=MODELOS)
@@ -391,6 +396,22 @@ def metricas():
         conteos={"total": 0, "alto": 0, "medio": 0, "bajo": 0},
         filtros={"modelo": "", "riesgo": "", "contrato": ""},
         modelos=MODELOS,
+    )
+
+
+@app.route("/shap")
+def shap_dashboard():
+    ruta_cliente = RESULTADOS_DIR / "shap_cliente_alto_riesgo.csv"
+    if ruta_cliente.exists():
+        tabla_cliente = pd.read_csv(ruta_cliente).to_dict(orient="records")
+    else:
+        tabla_cliente = []
+
+    return render_template(
+        "shap.html",
+        grafica_importancia="shap_importancia_global.png",
+        grafica_beeswarm="shap_beeswarm.png",
+        tabla_cliente=tabla_cliente,
     )
 
 

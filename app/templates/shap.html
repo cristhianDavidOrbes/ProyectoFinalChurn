@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+  <h1>Interpretabilidad con SHAP</h1>
+  <p>Graficas generadas para explicar que variables influyen mas en la prediccion de abandono.</p>
+</section>
+
+<section class="panel shap-intro">
+  <h2>¿Que muestra SHAP?</h2>
+  <p>
+    SHAP permite interpretar el modelo indicando cuanto aporta cada variable a la prediccion.
+    Valores positivos aumentan el riesgo de abandono y valores negativos reducen ese riesgo.
+  </p>
+</section>
+
+<section class="shap-grid">
+  <article class="panel shap-card">
+    <h2>Importancia global de variables</h2>
+    <p>Esta grafica resume cuales variables tienen mayor impacto promedio en las predicciones del modelo.</p>
+    <img src="{{ url_for('archivos_resultados', filename=grafica_importancia) }}" alt="Importancia global SHAP">
+  </article>
+
+  <article class="panel shap-card">
+    <h2>Grafica beeswarm</h2>
+    <p>Esta grafica muestra si los valores altos o bajos de cada variable aumentan o reducen el riesgo.</p>
+    <img src="{{ url_for('archivos_resultados', filename=grafica_beeswarm) }}" alt="Grafica beeswarm SHAP">
+  </article>
+</section>
+
+<section class="panel">
+  <h2>Cliente de alto riesgo explicado por SHAP</h2>
+  {% if tabla_cliente %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Valor SHAP</th>
+          <th>Impacto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in tabla_cliente %}
+        <tr>
+          <td>{{ row.Variable }}</td>
+          <td>{{ "%.4f"|format(row.Valor_SHAP) }}</td>
+          <td>{{ row.Impacto }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="empty">No se encontro la tabla SHAP del cliente de alto riesgo.</p>
+  {% endif %}
+</section>
+{% endblock %}

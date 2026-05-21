@@ -303,6 +303,33 @@ th {
   margin: 0;
 }
 
+.shap-intro {
+  margin-bottom: 18px;
+}
+
+.shap-intro p,
+.shap-card p {
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.shap-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.shap-card img {
+  display: block;
+  width: 100%;
+  max-height: 620px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
 @media (max-width: 860px) {
   .topbar,
   .result-layout {
